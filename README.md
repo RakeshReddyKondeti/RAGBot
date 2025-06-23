@@ -63,8 +63,6 @@ The RAG workflow processes a user question through several stages:
 5. **Response**  
    - The answer (and sources, if available) are returned to the user.
 
----
-
 ## Workflow Diagram
 
 ![RAG Workflow](workflow.PNG)
@@ -146,11 +144,11 @@ streamlit run app.py
 
 ## Monitoring in Production
 
+- **Feedback Loop:** Allow users to flag incorrect answers for review.
 - **Logging:** Add structured logging for all user queries and system errors.
-- **Health Checks:** Implement health endpoints and monitor with tools like Prometheus.
+- **Quality Monitoring:** Hallucination detection, safety filter effectiveness, and output consistency
 - **Usage Metrics:** Track API usage, latency, and error rates.
 - **Alerting:** Set up alerts for failed ingestions, high error rates, or LLM downtime.
-- **Feedback Loop:** Allow users to flag incorrect answers for review.
 
 ---
 
