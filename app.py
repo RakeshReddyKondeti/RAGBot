@@ -36,9 +36,6 @@ def initialize_session_state() -> None:
         "sources_history": [],
         "is_loading": False
     }
-
-    from llama_index.core.workflow.drawing import draw_all_possible_flows
-    draw_all_possible_flows(RAGWorkflow, filename="workflow_diagram.html")
     
     for key, value in initial_states.items():
         if key not in st.session_state:
