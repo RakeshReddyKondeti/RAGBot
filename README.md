@@ -67,6 +67,31 @@ The RAG workflow processes a user question through several stages:
 
 ![RAG Workflow](workflow.PNG)
 
+---
+
+## Code-to-Workflow Mapping
+
+| Workflow Step         | Code Section / Method                  | Description                                                                 |
+|----------------------|----------------------------------------|-----------------------------------------------------------------------------|
+| User Question        | `start(self, ev: StartEvent)`          | Receives the user's question and initiates retrieval.                       |
+| Retrieval            | `self.retriever.aretrieve(ev.question)`| Retrieves top-k similar nodes from the index.                               |
+| No Results           | `NoResultsRetrievedEvent`              | If nothing is found, triggers fallback prompt and LLM response.             |
+| Post-processing      | `post_process(self, ev: RetrievedResultsEvent)` | Applies similarity cutoff to filter results.                        |
+| No Results (filtered)| `NoResultsRetrievedEvent`              | If all results are filtered out, triggers fallback prompt and LLM response. |
+| LLM Generation       | `stop(self, ev: PostProcessedResultsEvent)` | Formats context and sends to LLM for answer generation.                |
+| Fallback Response    | `handle_no_retrieved_results(self, ev)`| Handles cases where no relevant documents are found.                        |
+| Final Response       | `StopEvent`                            | Returns the LLM's answer (and sources, if any) to the user.                 |
+
+---
+
+## Notes
+
+- **Sources:** If the answer is generated from retrieved documents, the sources are shown to the user.
+- **Stateless:** Each question is processed independently; the chatbot does not remember previous interactions.
+- **Fallback:** If no relevant information is found, a fallback prompt is used to generate a helpful response.
+
+---
+
 ## Instructions to Run the Chatbot
 
 ### 1. Install Dependencies
